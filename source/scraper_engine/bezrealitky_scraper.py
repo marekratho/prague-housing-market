@@ -1,4 +1,4 @@
-from _scraper import Scraper
+from ._scraper import Scraper
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.keys import Keys
