@@ -1,6 +1,6 @@
 from ._scraper import Scraper
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, UnexpectedAlertPresentException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -44,11 +44,15 @@ class BezrealitkyScraper(Scraper):
         time.sleep(2)
 
         # Locate table elements that contain listing details
-        tables = WebDriverWait(self.driver, self.config['TIMEOUT']).until(
-            EC.visibility_of_any_elements_located((By.XPATH, "//tbody"))
-        )
+        try:
+            tables = WebDriverWait(self.driver, self.config['TIMEOUT']).until(
+                EC.visibility_of_any_elements_located((By.XPATH, "//tbody"))
+            )
+        except TimeoutError:
+            tables = []
 
         # Scrape details from the tables
+        listing_details = {}
         for table in tables:
             names = WebDriverWait(table, self.config['TIMEOUT']).until(
                 EC.visibility_of_any_elements_located((By.XPATH, ".//th"))
@@ -56,13 +60,16 @@ class BezrealitkyScraper(Scraper):
             values = WebDriverWait(table, self.config['TIMEOUT']).until(
                 EC.visibility_of_any_elements_located((By.XPATH, ".//td"))
             )
+            for name, value in zip(names, values):
+                if name.text != '':
+                    listing_details.update({name.text: value.text})
         
         # Close the window and switch driver to the main window
         self.driver.implicitly_wait(10)
         self.driver.close()
         self.driver.switch_to.window(self.driver.window_handles[0])
 
-        return dict(zip(names, values))
+        return listing_details
     
     def scrape_attempt(self, total_listings: int) -> Union[list, None]:
         result_list = []
@@ -73,7 +80,7 @@ class BezrealitkyScraper(Scraper):
                 listings = WebDriverWait(self.driver, self.config['TIMEOUT']).until(
                     EC.visibility_of_all_elements_located((By.XPATH, self.config['LISTING_XPATH'].format(LISTING_CLASS=self.config['LISTING_CLASS'])))
                 )
-                #TODO: Fix to the XPath in the current version
+                
                 prices = WebDriverWait(self.driver, self.config['TIMEOUT']).until(
                     EC.visibility_of_all_elements_located((By.XPATH, self.config['PRICE_XPATH'].format(
                         PRICE_SECTION_CLASS=self.config['PRICE_SECTION_CLASS'],
@@ -88,7 +95,7 @@ class BezrealitkyScraper(Scraper):
                 time.sleep(self.config['SLEEP'])
                 listing_data = self.get_listing_details(listing.get_attribute('href'))
                 # Add price to the listing data and append to the scraper results
-                result_list.append(listing_data.update({'Cena': price.text}))
+                result_list.append(listing_data.__setitem__('Cena', price.text) or listing_data)
             
             self.current_page += 1
             self.load_page(self.current_page)
@@ -109,7 +116,7 @@ class BezrealitkyScraper(Scraper):
             try:
                 self.scrape_attempt(total_listings=total_listing_pages)
                 break
-            except TimeoutException:
+            except UnexpectedAlertPresentException:
                 '''
                 While scraping listings from bezrealitky, a pop-up can occur
                 which causes the scraping to timeout and fail. A solution

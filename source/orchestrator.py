@@ -2,7 +2,7 @@ from scraper_engine.bezrealitky_scraper import BezrealitkyScraper
 from scraper_engine.sreality_scraper import SrealityScraper
 from scraper_engine.ceskereality_scraper import CeskerealityScraper
 import json
-import datetime
+from datetime import datetime
 from utils import print_data_report, save_list, load_config
 
 
