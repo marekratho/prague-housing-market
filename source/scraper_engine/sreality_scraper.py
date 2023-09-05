@@ -103,12 +103,26 @@ class SrealityScraper(Scraper):
             else:
                 self.current_page += 1
                 self.load_page(self.current_page)
+        
+        self.driver.quit()
             
         return None
     
-    def parse_listing_name(self) -> None:
-        for listing in self.listings:
+    def process_listing_data(self) -> list:
+        raw_listings = self.listings.copy()
+        # Purge duplicate records
+        no_dups_results = [dict(t) for t in {tuple(sorted(d.items())) for d in raw_listings}]
+
+        for listing in no_dups_results:
+            # Convert string price to numeric
+            try:
+                listing['Cena'] = decimal.Decimal(re.sub(r'[^\d]', '', listing['Cena']))
+            except decimal.InvalidOperation:
+                listing['Cena'] = None
+
+            # Parse heading of the listing into parts
             heading = listing['Heading'].replace('Prodej bytu ', '').split()
             listing['Disposition'] = heading.pop(0)
             listing['Area'] = ''.join(heading)
-        return None
+        
+        return no_dups_results

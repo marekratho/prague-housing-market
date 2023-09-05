@@ -121,5 +121,23 @@ class BezrealitkyScraper(Scraper):
                     self.driver.switch_to.window(self.driver.window_handles[0])
 
                 self.load_page(self.current_page)
-
+        
+        self.driver.quit()
+        
+        return None
+    
+    def process_listing_data(self) -> list:
+        raw_listings = self.listings.copy()
+        # Purge duplicate records
+        no_dups_results = [dict(t) for t in {tuple(sorted(d.items())) for d in raw_listings}]
+        for dict in no_dups_results:
+            # Convert the price to Decimal
+            try:
+                dict['Cena'] = decimal.Decimal(re.sub(r'[^\d]', '', dict['Cena']))
+            except decimal.InvalidOperation:
+                dict['Cena'] = None
+            if 'DISPOZICE' not in dict.keys():
+                dict['DISPOZICE'] = None
+        
+        return no_dups_results
             
