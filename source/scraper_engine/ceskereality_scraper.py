@@ -116,23 +116,23 @@ class CeskerealityScraper(Scraper):
         raw_listings = self.listings.copy()
         # Purge duplicate records
         no_dups_results = [dict(t) for t in {tuple(sorted(d.items())) for d in raw_listings}]
-        for dict in no_dups_results:
+        for dictionary in no_dups_results:
             # Convert the price to Decimal
             try:
-                dict['Cena'] = decimal.Decimal(re.sub(r'[^\d]', '', dict['Cena']))
+                dictionary['Cena'] = decimal.Decimal(re.sub(r'[^\d]', '', dictionary['Cena']))
             except decimal.InvalidOperation:
-                dict['Cena'] = None
+                dictionary['Cena'] = None
 
             # Parse the title the disposition,
             # area of the apartment and Prague district
             # TODO: Area substring was None
-            area_substring = re.search(r'\d+\sm²', dict['Disposition'])
+            area_substring = re.search(r'\d+\sm²', dictionary['Disposition'])
             if area_substring:
-                dict['Area'] = int(re.sub(r'\sm²', '', area_substring.group(),))
-                dict['District'] = dict['Disposition'][area_substring.end() + 1:]
-            disposition = re.search(r'\d\+[\w\d]+', dict['Disposition'])
+                dictionary['Area'] = int(re.sub(r'\sm²', '', area_substring.group(),))
+                dictionary['District'] = dictionary['Disposition'][area_substring.end() + 1:]
+            disposition = re.search(r'\d\+[\w\d]+', dictionary['Disposition'])
             if disposition:
-                dict['Disposition'] = disposition.group()
+                dictionary['Disposition'] = disposition.group()
         
         return no_dups_results
 

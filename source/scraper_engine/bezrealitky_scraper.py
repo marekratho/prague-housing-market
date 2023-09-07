@@ -72,9 +72,9 @@ class BezrealitkyScraper(Scraper):
         return listing_details
     
     def scrape_attempt(self, total_listings: int) -> Union[list, None]:
-        result_list = []
     
         for i in range(self.current_page, total_listings + 1):
+            result_list = []
             try:
                 # Get individual listing links and their prices on the current page
                 listings = WebDriverWait(self.driver, self.config['TIMEOUT']).until(
@@ -137,14 +137,14 @@ class BezrealitkyScraper(Scraper):
         raw_listings = self.listings.copy()
         # Purge duplicate records
         no_dups_results = [dict(t) for t in {tuple(sorted(d.items())) for d in raw_listings}]
-        for dict in no_dups_results:
+        for dictionary in no_dups_results:
             # Convert the price to Decimal
             try:
-                dict['Cena'] = decimal.Decimal(re.sub(r'[^\d]', '', dict['Cena']))
+                dictionary['Cena'] = decimal.Decimal(re.sub(r'[^\d]', '', dictionary['Cena']))
             except decimal.InvalidOperation:
-                dict['Cena'] = None
-            if 'DISPOZICE' not in dict.keys():
-                dict['DISPOZICE'] = None
+                dictionary['Cena'] = None
+            if 'DISPOZICE' not in dictionary.keys():
+                dictionary['DISPOZICE'] = None
         
         return no_dups_results
             
