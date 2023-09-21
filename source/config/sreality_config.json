@@ -1,0 +1,23 @@
+{
+    "TIMEOUT": 60,
+    "SLEEP": 15,
+
+    "COOKIE_CONSENT_URL": "https://www.seznam.cz/nastaveni-souhlasu/",
+
+    "MAIN_LINK": "https://www.sreality.cz/hledani/prodej/byty/praha-1,praha-2,praha-3,praha-4,praha-5,praha-6,praha-7,praha-8,praha-9,praha-10?velikost=1%2B1,2%2Bkk,2%2B1,3%2Bkk,3%2B1&stavba=panelova,cihlova&strana=",
+
+    "TOTAL_LISTING_COUNT_XPATH": "//span[@class=\"{LISTING_COUNT_CLASS}\"]",
+    "LISTING_COUNT_CLASS": "numero ng-binding",
+
+    "LISTING_XPATH": "//div[@class=\"{LISTING_CLASS}\"]",
+    "LISTING_CLASS": "property ng-scope",
+
+    "PRICE_XPATH": ".//span[@class=\"{PRICE_CLASS}\"]",
+    "PRICE_CLASS": "price ng-scope",
+
+    "LOCATION_XPATH": ".//span[@class=\"{LOCATION_CLASS}\"]",
+    "LOCATION_CLASS": "locality ng-binding",
+
+    "NAME_XPATH": ".//span[@class=\"{NAME_CLASS}\"]",
+    "NAME_CLASS": "name ng-binding"
+}

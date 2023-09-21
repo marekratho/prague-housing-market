@@ -1,0 +1,15 @@
+{
+    "TIMEOUT": 60,
+    "SLEEP": 3,
+    
+    "COOKIES_BUTTON": "CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll",
+    "LISTING_PAGES_XPATH": "//a[@class=\"page-link\"]",
+    "MAIN_LINK": "https://www.bezrealitky.cz/vyhledat?offerType=PRODEJ&estateType=BYT&disposition=DISP_1_1&disposition=DISP_2_KK&disposition=DISP_2_1&disposition=DISP_3_KK&disposition=DISP_3_1&regionOsmIds=R435541&page=",
+
+    "LISTING_XPATH": "//div[@class=\"{LISTING_CLASS}\"]//a",
+    "LISTING_CLASS": "PropertyCard_propertyCardImageHolder__Dxypp mb-3 mb-md-0 me-md-5 propertyCardImageHolder",
+
+    "PRICE_XPATH": "//section[contains(@class, \"{PRICE_SECTION_CLASS}\")]//span[contains(@class, \"{PRICE_SPAN_CLASS}\")]",
+    "PRICE_SECTION_CLASS": "box Section_section__gjwvr section mb-6 mb-md-10",
+    "PRICE_SPAN_CLASS": "PropertyPrice_propertyPriceAmount"
+}

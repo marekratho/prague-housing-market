@@ -1,0 +1,19 @@
+{
+    "SLEEP": 15,
+    "TIMEOUT": 60,
+
+    "MAIN_LINK": "https://www.ceskereality.cz/prodej/bez-drazeb/byty/byty-2-kk/kraj-hlavni-mesto-praha/?d_subtyp=205%2C206%2C207",
+
+    "COOKIE_IFRAME_XPATH": "//div[@id='appconsent']//iframe",
+    "ACCEPT_COOKIES_BUTTON_XPATH": "//button[contains(@class, \"{ACCEPT_COOKIES_BUTTON_CLASS}\")]",
+    "ACCEPT_COOKIES_BUTTON_CLASS": "button--filled button__acceptAll",
+
+    "LISTING_XPATH": "//div[contains(@class, \"{LISTING_CLASS}\")]//a",
+    "LISTING_CLASS": "div_nemovitost_foto_i",
+
+    "PRICE_XPATH": "//div[@class='{PRICE_CLASS}'] ",
+    "PRICE_CLASS": "price",
+
+    "TITLE_XPATH": "//div[@class='{TITLE_CLASS}'] ",
+    "TITLE_CLASS": "title"
+}
