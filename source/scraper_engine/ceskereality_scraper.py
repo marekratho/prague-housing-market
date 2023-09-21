@@ -133,6 +133,8 @@ class CeskerealityScraper(Scraper):
             disposition = re.search(r'\d\+[\w\d]+', dictionary['Disposition'])
             if disposition:
                 dictionary['Disposition'] = disposition.group()
+            else:
+                dictionary['Disposition'] = 'NA'
         
         return no_dups_results
 
