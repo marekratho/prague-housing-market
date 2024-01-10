@@ -48,7 +48,7 @@ class BezrealitkyScraper(Scraper):
             tables = WebDriverWait(self.driver, self.config['TIMEOUT']).until(
                 EC.visibility_of_any_elements_located((By.XPATH, "//tbody"))
             )
-        except TimeoutError:
+        except TimeoutException:
             tables = []
 
         # Scrape details from the tables
@@ -82,7 +82,7 @@ class BezrealitkyScraper(Scraper):
                 )
                 
                 prices = WebDriverWait(self.driver, self.config['TIMEOUT']).until(
-                    EC.visibility_of_all_elements_located((By.XPATH, self.config['PRICE_XPATH'].format(
+                    EC.presence_of_all_elements_located((By.XPATH, self.config['PRICE_XPATH'].format(
                         PRICE_SECTION_CLASS=self.config['PRICE_SECTION_CLASS'],
                         PRICE_SPAN_CLASS=self.config['PRICE_SPAN_CLASS']
                     )))

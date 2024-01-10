@@ -11,5 +11,5 @@
 
     "PRICE_XPATH": "//section[contains(@class, \"{PRICE_SECTION_CLASS}\")]//span[contains(@class, \"{PRICE_SPAN_CLASS}\")]",
     "PRICE_SECTION_CLASS": "box Section_section__gjwvr section mb-md-10 mb-6",
-    "PRICE_SPAN_CLASS": "PropertyPrice_propertyPriceAmount"
+    "PRICE_SPAN_CLASS": "PropertyPrice_propertyPriceAmount__WdEE1"
 }

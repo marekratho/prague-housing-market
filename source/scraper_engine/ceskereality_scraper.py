@@ -20,7 +20,16 @@ class CeskerealityScraper(Scraper):
         self.listings = []
     
     def handle_cookie_consent(self) -> None:
-        iframes = self.driver.find_elements(By.XPATH, self.config['COOKIE_IFRAME_XPATH'])
+        iframes = WebDriverWait(self.driver, self.config['TIMEOUT']).until(
+            EC.visibility_of_any_elements_located(
+                (
+                    By.XPATH, 
+                    self.config['COOKIE_IFRAME_XPATH'].format(ACCEPT_COOKIES_BUTTON_CLASS=self.config['ACCEPT_COOKIES_BUTTON_CLASS'])
+                )
+            )
+        )
+        
+        self.driver.find_elements(By.XPATH, self.config['COOKIE_IFRAME_XPATH'])
         # If there is a cookies iframe that needs to be confirmed
         if len(iframes) != 0:
             print('Number of iframes: ', len(iframes))
