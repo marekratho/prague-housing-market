@@ -87,15 +87,25 @@ class BezrealitkyScraper(Scraper):
                         PRICE_SPAN_CLASS=self.config['PRICE_SPAN_CLASS']
                     )))
                 )
+                locations = WebDriverWait(self.driver, self.config['TIMEOUT']).until(
+                    EC.visibility_of_all_elements_located((By.XPATH, self.config['LOCATION_XPATH'].format(
+                        LOCATION_SPAN_CLASS=self.config['LOCATION_SPAN_CLASS']
+                    )))
+                )
             except TimeoutException:
                 listings = []
                 prices = []
+                locations = []
             
-            for listing, price in zip(listings, prices):
+            for listing, price, location in zip(listings, prices, locations):
                 time.sleep(self.config['SLEEP'])
                 listing_data = self.get_listing_details(listing.get_attribute('href'))
                 # Add price to the listing data and append to the scraper results
-                result_list.append(listing_data.__setitem__('Cena', price.text) or listing_data)
+                result_list.append(
+                    listing_data.__setitem__('Cena', price.text) or
+                    listing_data.__setitem__('Location', location.text) or 
+                    listing_data
+                )
             
             self.current_page += 1
             self.load_page(self.current_page)

@@ -158,6 +158,7 @@ cython_debug/
 # Data
 raw_data/
 preprocessed_data/
+notebooks/
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
